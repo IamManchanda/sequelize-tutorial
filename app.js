@@ -67,9 +67,11 @@ app.post("/posts", async function createPost(req, res) {
   }
 });
 
-app.get("/posts", async function readPosts(req, res) {
+app.get("/posts", async function readPosts(_req, res) {
   try {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({
+      include: ["user"],
+    });
     return res.json(posts);
   } catch (error) {
     console.log(error);
