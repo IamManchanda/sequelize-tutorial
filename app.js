@@ -35,6 +35,7 @@ app.get("/users/:uuid", async function findUser(req, res) {
   try {
     const user = await User.findOne({
       where: { uuid },
+      include: ["posts"],
     });
     return res.json(user);
   } catch (error) {
