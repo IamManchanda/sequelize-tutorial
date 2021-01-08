@@ -19,7 +19,6 @@ app.post("/users", async function createUser(req, res) {
 
 app.listen({ port: 5000 }, async function bootApp() {
   console.log("Server listening on http://localhost:5000");
-  console.log("Database sync started");
-  await sequelize.sync({ force: true });
-  console.log("Database sync completed");
+  await sequelize.authenticate();
+  console.log("Database connection successful");
 });
