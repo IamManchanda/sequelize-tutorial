@@ -17,6 +17,18 @@ app.post("/users", async function createUser(req, res) {
   }
 });
 
+app.get("/users", async function readUsers(_req, res) {
+  try {
+    const users = await User.findAll();
+    return res.json(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "Something went wrong, Internal Server Error.",
+    });
+  }
+});
+
 app.listen({ port: 5000 }, async function bootApp() {
   console.log("Server listening on http://localhost:5000");
   await sequelize.authenticate();
