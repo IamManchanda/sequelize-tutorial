@@ -1,5 +1,5 @@
 const express = require("express");
-const { sequelize, User } = require("./models");
+const { sequelize, User, Post } = require("./models");
 
 const app = express();
 app.use(express.json());
@@ -37,6 +37,28 @@ app.get("/users/:uuid", async function findUser(req, res) {
       where: { uuid },
     });
     return res.json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "Something went wrong, Internal Server Error.",
+    });
+  }
+});
+
+app.post("/posts", async function createPost(req, res) {
+  const { userUuid, body } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        uuid: userUuid,
+      },
+    });
+    const post = await Post.create({
+      body,
+      userId: user.id,
+    });
+    return res.json(post);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
